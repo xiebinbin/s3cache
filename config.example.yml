@@ -1,0 +1,9 @@
+minio:
+  endpoint: ""
+  accessKeyId: ""
+  secretAccessKey: ""
+server:
+  debug: true
+  remoteEnable: false
+  dataPath: ""
+  address: "0.0.0.0:8009"
