@@ -22,7 +22,12 @@ func HandleCache() gin.HandlerFunc {
 				log.Println("处理图片")
 				src := c.DefaultQuery("src", "")
 				bucket := c.DefaultQuery("bucket", "")
-				srcPath := utils.DataPath("src", bucket, src)
+				srcPath := ""
+				if bucket != "" {
+					srcPath = utils.DataPath("src", bucket, src)
+				} else {
+					srcPath = utils.DataPath("src", src)
+				}
 				format := c.DefaultQuery("f", "")
 				width, err := strconv.Atoi(c.DefaultQuery("w", "0"))
 				if err != nil {
@@ -33,6 +38,7 @@ func HandleCache() gin.HandlerFunc {
 					return
 				}
 				mode := c.DefaultQuery("m", "")
+				log.Println("执行转码@@")
 				buff, err := imagepro.New(srcPath, &imagepro.Options{
 					Format:  format,
 					Mode:    mode,
@@ -41,6 +47,7 @@ func HandleCache() gin.HandlerFunc {
 					Quality: 85,
 				}).Transform().Encode()
 				if err != nil {
+					log.Println(err)
 					return
 				}
 				if err != nil {

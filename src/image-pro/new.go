@@ -2,7 +2,6 @@ package imagepro
 
 import (
 	"github.com/fishtailstudio/imgo"
-	"log"
 )
 
 func New(src string, opts *Options) *ImagePro {
@@ -15,7 +14,6 @@ func New(src string, opts *Options) *ImagePro {
 		opts.Quality = 85
 	}
 	i.extension = img.Extension()
-	log.Println("扩展", i.extension)
 	i.opts = opts
 	return i
 }

@@ -2,3 +2,4 @@ config.yml
 bin
 .idea
 .DS_Store
+data

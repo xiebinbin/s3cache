@@ -37,15 +37,19 @@ func (i *ImagePro) Transform() *ImagePro {
 	}
 	if i.opts.Format == "webp" {
 		var buff bytes.Buffer
-		if i.extension == "png" {
-			err := webp.Encode(&buff, i.image, &webp.Options{Lossless: i.Lossless})
-			if err != nil {
-				log.Println(err)
-			}
+		err := webp.Encode(&buff, img.ToImage(), &webp.Options{
+			Lossless: i.Lossless,
+			Exact:    i.Exact,
+			Quality:  float32(i.opts.Quality.(int)),
+		})
+		if err != nil {
+			log.Panic(err)
 		}
+
 		webpImg, err := webp.Decode(&buff)
 		if err != nil {
-			return nil
+			log.Println("webp编码失败")
+			log.Panic(err)
 		}
 		i.image = webpImg
 		i.extension = "webp"

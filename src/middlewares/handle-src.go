@@ -15,17 +15,24 @@ func HandleSrc(r *gin.Engine) gin.HandlerFunc {
 		srcPath := strings.Replace(c.Request.URL.Path, "/file/", "", 1)
 		// 从远程下载文件
 		bucket := c.DefaultQuery("bucket", "")
-		localSrcPath := utils.DataPath("src", bucket, srcPath)
+		localSrcPath := ""
+		if bucket != "" {
+			localSrcPath = utils.DataPath("src", bucket, srcPath)
+		} else {
+			// 作为本地使用时
+			localSrcPath = utils.DataPath("src", srcPath)
+		}
 		if utils.IsExist(localSrcPath) == false {
 			// 将下载过的数据放入redis中
 			if utils.GetConfig().Server.RemoteEnable == false {
 				return
 			}
 			if bucket != "" {
-				err := storage.DownloadObject(bucket, srcPath, utils.DataPath("src", bucket, srcPath))
-				if err != nil {
-					return
-				}
+				return
+			}
+			err := storage.DownloadObject(bucket, srcPath, utils.DataPath("src", bucket, srcPath))
+			if err != nil {
+				return
 			}
 		}
 		baseName := gfile.Basename(srcPath)
@@ -45,7 +52,11 @@ func HandleSrc(r *gin.Engine) gin.HandlerFunc {
 				r.HandleContext(c)
 			}
 		} else {
-			c.Request.URL.Path = "/src/" + bucket + "/" + srcPath
+			if bucket != "" {
+				c.Request.URL.Path = "/src/" + bucket + "/" + srcPath
+			} else {
+				c.Request.URL.Path = "/src/" + srcPath
+			}
 			c.Request.URL.RawQuery = ""
 			r.HandleContext(c)
 		}
