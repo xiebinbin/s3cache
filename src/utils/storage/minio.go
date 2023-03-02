@@ -23,7 +23,5 @@ func initMinioClient() {
 }
 func DownloadObject(bucket string, objectName string, filePath string) error {
 	err := minioClient.FGetObject(context.Background(), bucket, objectName, filePath, minio.GetObjectOptions{})
-	// 文件路径 大小 时间
-
 	return err
 }

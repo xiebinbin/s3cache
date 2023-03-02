@@ -27,7 +27,7 @@ func HandleSrc(r *gin.Engine) gin.HandlerFunc {
 			if utils.GetConfig().Server.RemoteEnable == false {
 				return
 			}
-			if bucket != "" {
+			if bucket == "" {
 				return
 			}
 			err := storage.DownloadObject(bucket, srcPath, utils.DataPath("src", bucket, srcPath))

@@ -3,7 +3,13 @@ minio:
   accessKeyId: ""
   secretAccessKey: ""
 server:
+  hostName: ""
   debug: true
   remoteEnable: false
   dataPath: ""
-  address: "0.0.0.0:8009"
+  fileAddress: "0.0.0.0:8009"
+  m3u8Address: "0.0.0.0:8008"
+  nodes:
+    - "https://a01.xx.com/"
+    - "https://a01.xx.com/"
+    - "https://a01.xx.com"

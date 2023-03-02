@@ -8,14 +8,13 @@ import (
 )
 
 func RunServer() {
-	log.Println("run server " + utils.GetConfig().Server.Address)
+	log.Println("run server " + utils.GetConfig().Server.FileAddress)
 	if utils.GetConfig().Server.Debug {
 		gin.SetMode(gin.DebugMode)
 	} else {
 		gin.SetMode(gin.ReleaseMode)
 	}
 	var r = gin.Default()
-
 	// 第一层用户接收用户请求
 	fileRoute := r.Group("/file")
 	fileRoute.Use(middlewares.HandleSrc(r))
@@ -27,8 +26,7 @@ func RunServer() {
 	cacheRoute := r.Group("/cache")
 	cacheRoute.Use(middlewares.HandleCache())
 	cacheRoute.Static("/", utils.DataPath("cache"))
-
-	err := r.Run(utils.GetConfig().Server.Address)
+	err := r.Run(utils.GetConfig().Server.FileAddress)
 	if err != nil {
 		return
 	}

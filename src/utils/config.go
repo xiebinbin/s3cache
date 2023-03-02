@@ -12,10 +12,13 @@ type AppConfig struct {
 		SecretAccessKey string `yaml:"secretAccessKey"`
 	}
 	Server struct {
-		RemoteEnable bool   `yaml:"remoteEnable"`
-		Address      string `yaml:"address"`
-		DataPath     string `yaml:"dataPath"`
-		Debug        bool   `yaml:"debug"`
+		HostName     string   `yaml:"hostName"`
+		RemoteEnable bool     `yaml:"remoteEnable"`
+		FileAddress  string   `yaml:"fileAddress"`
+		M3u8Address  string   `yaml:"m3u8Address"`
+		DataPath     string   `yaml:"dataPath"`
+		Debug        bool     `yaml:"debug"`
+		Nodes        []string `yaml:"nodes"`
 	}
 }
 
